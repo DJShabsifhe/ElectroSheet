@@ -14,6 +14,8 @@
 		1FCB99552C8BEFFD00CA1843 /* ElectroSheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB99542C8BEFFD00CA1843 /* ElectroSheetTests.swift */; };
 		1FCB995F2C8BEFFD00CA1843 /* ElectroSheetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB995E2C8BEFFD00CA1843 /* ElectroSheetUITests.swift */; };
 		1FCB99612C8BEFFD00CA1843 /* ElectroSheetUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB99602C8BEFFD00CA1843 /* ElectroSheetUITestsLaunchTests.swift */; };
+		1FCB99722C8C16B500CA1843 /* AddItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB99712C8C16B500CA1843 /* AddItem.swift */; };
+		1FCB99742C8C16CB00CA1843 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB99732C8C16CB00CA1843 /* Home.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,8 @@
 		1FCB995A2C8BEFFD00CA1843 /* ElectroSheetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ElectroSheetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB995E2C8BEFFD00CA1843 /* ElectroSheetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectroSheetUITests.swift; sourceTree = "<group>"; };
 		1FCB99602C8BEFFD00CA1843 /* ElectroSheetUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectroSheetUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1FCB99712C8C16B500CA1843 /* AddItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItem.swift; sourceTree = "<group>"; };
+		1FCB99732C8C16CB00CA1843 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +104,8 @@
 				1FCB99462C8BEFFC00CA1843 /* Assets.xcassets */,
 				1FCB99482C8BEFFC00CA1843 /* ElectroSheet.entitlements */,
 				1FCB99492C8BEFFC00CA1843 /* Preview Content */,
+				1FCB99712C8C16B500CA1843 /* AddItem.swift */,
+				1FCB99732C8C16CB00CA1843 /* Home.swift */,
 			);
 			path = ElectroSheet;
 			sourceTree = "<group>";
@@ -261,6 +267,8 @@
 			files = (
 				1FCB99452C8BEFFA00CA1843 /* ContentView.swift in Sources */,
 				1FCB99432C8BEFFA00CA1843 /* ElectroSheetApp.swift in Sources */,
+				1FCB99742C8C16CB00CA1843 /* Home.swift in Sources */,
+				1FCB99722C8C16B500CA1843 /* AddItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
