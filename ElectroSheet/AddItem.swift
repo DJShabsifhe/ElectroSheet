@@ -11,9 +11,7 @@ import Foundation
 import SwiftUI
 
 struct AddItem: View {
-    @Binding var partName: [String]
-    @Binding var partImage: [String]
-    @Binding var partDescription: [String]
+    @ObservedObject var viewModel: PartViewModel
     
     @Binding var showingAddItem: Bool
     @State private var newName = ""
@@ -27,7 +25,7 @@ struct AddItem: View {
     var body: some View {
         VStack {
             Text("Add New Item")
-                .font(.headline)
+                .font(.title2)
                 .padding()
 
             TextField("Part Name", text: $newName)
@@ -37,45 +35,41 @@ struct AddItem: View {
             TextField("Description", text: $newDescription)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
-
-            Picker("Select Icon", selection: $selectedIcon) {
-                ForEach(icons, id: \.self) { icon in
-                    Label(icon.capitalized, systemImage: icon)
+            
+            HStack {
+                Picker("Select Icon", selection: $selectedIcon) {
+                    ForEach(icons, id: \.self) { icon in
+                        Label(icon.capitalized, systemImage: icon)
+                    }
                 }
-            }
-            .pickerStyle(MenuPickerStyle())
-            .padding()
-
-            Picker("Select Color", selection: $selectedColor) {
-                ForEach(colors, id: \.self) { color in
-                    Text(color.description.capitalized)
-                        .foregroundColor(color)
+                .pickerStyle(MenuPickerStyle())
+                .padding()
+                
+                Picker("Select Color", selection: $selectedColor) {
+                    ForEach(colors, id: \.self) { color in
+                        Text(color.description.capitalized)
+                            .foregroundColor(color)
+                    }
                 }
+                .pickerStyle(MenuPickerStyle())
+                .padding()
             }
-            .pickerStyle(MenuPickerStyle())
-            .padding()
-
+            
             Button("Save") {
                 if !newName.isEmpty && !newDescription.isEmpty {
-                    partName.append(newName)
-                    partDescription.append(newDescription)
-                    partImage.append(selectedIcon)
+                    viewModel.addPart(name: newName, description: newDescription, icon: selectedIcon, color: selectedColor)
 
-                    // Save to UserDefaults
-                    UserDefaults.standard.set(partName, forKey: "partName")
-                    UserDefaults.standard.set(partDescription, forKey: "partDescription")
-                    UserDefaults.standard.set(partImage, forKey: "partImage")
-
+                    // Clear input fields
                     newName = ""
                     newDescription = ""
                     showingAddItem = false
                 }
             }
             .padding()
-            .background(selectedColor)
-            .foregroundColor(.white)
+            .foregroundColor(.blue)
             .cornerRadius(8)
-
+            .font(.system(size: 20))
+            
             Spacer()
         }
         .padding()

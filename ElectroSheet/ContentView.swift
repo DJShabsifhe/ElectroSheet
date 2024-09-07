@@ -8,17 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var partName: [String] = UserDefaults.standard.stringArray(forKey: "partName") ?? ["a", "b", "c"]
-    @State private var partImage: [String] = UserDefaults.standard.stringArray(forKey: "partImage") ?? ["globe", "globe", "globe"]
-    @State private var partDescription: [String] = UserDefaults.standard.stringArray(forKey: "partDescription") ?? ["Description A", "Description B", "Description C"]
-    
-    @State private var searchText = ""
-    @State private var showingAddItem = false
+    @StateObject private var viewModel = PartViewModel()
     @State private var selectedTab = 0
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            Home(partName: $partName, partImage: $partImage, partDescription: $partDescription, searchText: $searchText, showingAddItem: $showingAddItem)
+            Home(viewModel: viewModel)
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
@@ -41,9 +36,6 @@ struct ContentView: View {
                     Label("Profile", systemImage: "person")
                 }
                 .tag(3)
-        }
-        .sheet(isPresented: $showingAddItem) {
-            AddItem(partName: $partName, partImage: $partImage, partDescription: $partDescription, showingAddItem: $showingAddItem)
         }
     }
 }

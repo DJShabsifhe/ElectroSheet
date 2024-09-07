@@ -5,23 +5,20 @@
 //  Created by DJShabsifhe on 2024/9/7.
 //
 
-import Foundation
-
+// Home.swift
 import SwiftUI
 
 struct Home: View {
-    @Binding var partName: [String]
-    @Binding var partImage: [String]
-    @Binding var partDescription: [String]
+    @ObservedObject var viewModel: PartViewModel
     
-    @Binding var searchText: String
-    @Binding var showingAddItem: Bool
+    @State private var searchText: String = ""
+    @State private var showingAddItem: Bool = false
 
-    var filteredParts: [String] {
+    var filteredParts: [PartItem] {
         if searchText.isEmpty {
-            return partName
+            return viewModel.parts
         } else {
-            return partName.filter { $0.contains(searchText) }
+            return viewModel.parts.filter { $0.name.contains(searchText) }
         }
     }
 
@@ -40,8 +37,9 @@ struct Home: View {
                 TextField("Search", text: $searchText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                    .font(.system(size: 22))
-                
+//                    .frame(height: 50)
+                    .font(.system(size: 18))
+
                 Spacer()
                 
                 Button(action: {
@@ -50,7 +48,7 @@ struct Home: View {
                     Text("Add")
                         .font(.system(size: 20))
                         .padding(8)
-                        .background(Color.blue)
+                        .background(Color.mint)
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
@@ -58,17 +56,17 @@ struct Home: View {
             }
             .padding(.horizontal)
 
-            List(filteredParts.indices, id: \.self) { index in
+            List(filteredParts) { part in
                 HStack {
-                    Label(filteredParts[index], systemImage: partImage[index])
-                        .foregroundColor(Color.blue) // Default color for the label
-                        .font(.headline)
+                    Label(part.name, systemImage: part.icon)
+                        .foregroundColor(part.color)
                     Spacer()
-                    Text(partDescription[index])
+                    Text(part.description)
                 }
-                .foregroundColor(Color.blue) // Set the text color for the description
-                .background(Color.clear) // Optional: Set background color to clear
             }
+        }
+        .sheet(isPresented: $showingAddItem) {
+            AddItem(viewModel: viewModel, showingAddItem: $showingAddItem)
         }
     }
 }
