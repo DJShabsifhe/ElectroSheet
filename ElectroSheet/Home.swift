@@ -40,6 +40,7 @@ struct Home: View {
                 TextField("Search", text: $searchText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
+                    .font(.system(size: 22))
                 
                 Spacer()
                 
