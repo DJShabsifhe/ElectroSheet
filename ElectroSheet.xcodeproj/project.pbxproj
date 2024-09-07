@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F66DD5F2C8C663B00AADB37 /* ImportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66DD5E2C8C663B00AADB37 /* ImportData.swift */; };
+		1F66DD692C8C6C3400AADB37 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66DD682C8C6C3400AADB37 /* ProfileView.swift */; };
+		1F66DD6B2C8C716B00AADB37 /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66DD6A2C8C716B00AADB37 /* FavoriteView.swift */; };
+		1F66DD6D2C8C78C000AADB37 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66DD6C2C8C78C000AADB37 /* SettingsView.swift */; };
 		1F6BF7CC2C8C3666000BE0FB /* PartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6BF7CB2C8C3666000BE0FB /* PartItem.swift */; };
 		1F6BF7CE2C8C36CE000BE0FB /* PartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6BF7CD2C8C36CE000BE0FB /* PartViewModel.swift */; };
 		1FCB99432C8BEFFA00CA1843 /* ElectroSheetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB99422C8BEFFA00CA1843 /* ElectroSheetApp.swift */; };
@@ -38,6 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F66DD5E2C8C663B00AADB37 /* ImportData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportData.swift; sourceTree = "<group>"; };
+		1F66DD682C8C6C3400AADB37 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		1F66DD6A2C8C716B00AADB37 /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
+		1F66DD6C2C8C78C000AADB37 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1F6BF7CB2C8C3666000BE0FB /* PartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartItem.swift; sourceTree = "<group>"; };
 		1F6BF7CD2C8C36CE000BE0FB /* PartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartViewModel.swift; sourceTree = "<group>"; };
 		1FCB993F2C8BEFFA00CA1843 /* ElectroSheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElectroSheet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +120,10 @@
 				1FCB99732C8C16CB00CA1843 /* Home.swift */,
 				1F6BF7CB2C8C3666000BE0FB /* PartItem.swift */,
 				1F6BF7CD2C8C36CE000BE0FB /* PartViewModel.swift */,
+				1F66DD5E2C8C663B00AADB37 /* ImportData.swift */,
+				1F66DD682C8C6C3400AADB37 /* ProfileView.swift */,
+				1F66DD6A2C8C716B00AADB37 /* FavoriteView.swift */,
+				1F66DD6C2C8C78C000AADB37 /* SettingsView.swift */,
 			);
 			path = ElectroSheet;
 			sourceTree = "<group>";
@@ -271,11 +283,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F66DD5F2C8C663B00AADB37 /* ImportData.swift in Sources */,
+				1F66DD692C8C6C3400AADB37 /* ProfileView.swift in Sources */,
 				1FCB99452C8BEFFA00CA1843 /* ContentView.swift in Sources */,
 				1F6BF7CE2C8C36CE000BE0FB /* PartViewModel.swift in Sources */,
 				1FCB99432C8BEFFA00CA1843 /* ElectroSheetApp.swift in Sources */,
+				1F66DD6D2C8C78C000AADB37 /* SettingsView.swift in Sources */,
 				1FCB99742C8C16CB00CA1843 /* Home.swift in Sources */,
 				1FCB99722C8C16B500CA1843 /* AddItem.swift in Sources */,
+				1F66DD6B2C8C716B00AADB37 /* FavoriteView.swift in Sources */,
 				1F6BF7CC2C8C3666000BE0FB /* PartItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

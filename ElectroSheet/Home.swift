@@ -48,7 +48,7 @@ struct Home: View {
                     Text("Add")
                         .font(.system(size: 20))
                         .padding(8)
-                        .background(Color.mint)
+                        .background(Color.accentColor.opacity(0.8))
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
@@ -58,10 +58,26 @@ struct Home: View {
 
             List(filteredParts) { part in
                 HStack {
+                    Image(systemName: part.isFavorite ? "star.fill" : "star")
+                        .foregroundColor(part.isFavorite ? .yellow : .gray)
+                        .onTapGesture {
+                            viewModel.toggleFavorite(for: part)
+                        } // Alternative to Favorite
+                    
                     Label(part.name, systemImage: part.icon)
                         .foregroundColor(part.color)
+                    
                     Spacer()
+                    
                     Text(part.description)
+                }
+                .swipeActions {
+                    Button(action: {
+                        viewModel.toggleFavorite(for: part)
+                    }) {
+                        Label(part.isFavorite ? "Unfavorite" : "Favorite", systemImage: part.isFavorite ? "star.fill" : "star")
+                    }
+                    .tint(part.isFavorite ? .red : .yellow)
                 }
             }
         }

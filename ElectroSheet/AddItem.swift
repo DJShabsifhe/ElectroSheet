@@ -5,8 +5,6 @@
 //  Created by DJShabsifhe on 2024/9/7.
 //
 
-// bugs to be fixed: adding item with color
-
 import Foundation
 import SwiftUI
 

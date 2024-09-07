@@ -24,6 +24,18 @@ class PartViewModel: ObservableObject {
         parts.append(newPart)
     }
 
+    func toggleFavorite(for part: PartItem) {
+        if let index = parts.firstIndex(where: { $0.id == part.id }) {
+            parts[index].isFavorite.toggle()
+            // Record the favorite date
+            if parts[index].isFavorite {
+                parts[index].favoriteDate = Date()
+            } else {
+                parts[index].favoriteDate = nil
+            }
+        }
+    }
+
     private func saveParts() {
         if let encoded = try? JSONEncoder().encode(parts) {
             UserDefaults.standard.set(encoded, forKey: "parts")

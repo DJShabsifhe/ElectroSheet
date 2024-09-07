@@ -13,9 +13,10 @@ struct PartItem: Identifiable, Codable {
     var name: String
     var description: String
     var icon: String
-    var colorString: String // Store color as String
+    var colorString: String
+    var isFavorite: Bool = false
+    var favoriteDate: Date?
 
-    // Computed property to get Color from the colorString
     var color: Color {
         switch colorString {
         case "blue": return .blue
@@ -23,7 +24,7 @@ struct PartItem: Identifiable, Codable {
         case "red": return .red
         case "yellow": return .yellow
         case "purple": return .purple
-        default: return .black // Fallback color
+        default: return .black
         }
     }
 }

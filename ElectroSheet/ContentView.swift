@@ -19,19 +19,19 @@ struct ContentView: View {
                 }
                 .tag(0)
 
-            Text("Favorites Section")
+            FavoritesView(viewModel: viewModel)
                 .tabItem {
                     Label("Favorites", systemImage: "star")
                 }
                 .tag(1)
 
-            Text("Settings Section")
+            SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }
                 .tag(2)
 
-            Text("Profile Section")
+            ProfileView()
                 .tabItem {
                     Label("Profile", systemImage: "person")
                 }
