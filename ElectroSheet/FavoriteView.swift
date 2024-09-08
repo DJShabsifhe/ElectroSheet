@@ -15,14 +15,16 @@ struct FavoritesView: View {
                 ForEach(groupedFavorites.keys.sorted(), id: \.self) { date in
                     Section(header: Text(date, style: .date)) {
                         ForEach(groupedFavorites[date]!) { part in
-                            HStack {
-                                Image(systemName: part.icon)
-                                    .foregroundColor(part.color)
-                                Text(part.name)
-                                    .foregroundColor(part.color)
-                                Spacer()
-                                Text(part.description)
-                                    .foregroundColor(.gray)
+                            NavigationLink(destination: PartDetailView(part: part)) {
+                                HStack {
+                                    Image(systemName: part.icon)
+                                        .foregroundColor(part.color)
+                                    Text(part.name)
+                                        .foregroundColor(part.color)
+                                    Spacer()
+                                    Text(part.description)
+                                        .foregroundColor(.gray)
+                                }
                             }
                         }
                     }

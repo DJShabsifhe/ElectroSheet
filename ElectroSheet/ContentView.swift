@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     @StateObject private var viewModel = PartViewModel()
     @State private var selectedTab = 0
 
     var body: some View {
+        
         TabView(selection: $selectedTab) {
             Home(viewModel: viewModel)
                 .tabItem {
@@ -37,6 +39,7 @@ struct ContentView: View {
                 }
                 .tag(3)
         }
+        .accentColor(.accentColor)
     }
 }
 

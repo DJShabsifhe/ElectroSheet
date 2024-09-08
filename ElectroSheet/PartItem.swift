@@ -16,6 +16,9 @@ struct PartItem: Identifiable, Codable {
     var colorString: String
     var isFavorite: Bool = false
     var favoriteDate: Date?
+    var type: String
+    var usage: String
+    var special: String
 
     var color: Color {
         switch colorString {

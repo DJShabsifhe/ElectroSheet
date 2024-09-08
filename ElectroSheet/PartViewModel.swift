@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 class PartViewModel: ObservableObject {
     @Published var parts: [PartItem] = [] {
@@ -19,15 +18,13 @@ class PartViewModel: ObservableObject {
         loadParts()
     }
 
-    func addPart(name: String, description: String, icon: String, color: Color) {
-        let newPart = PartItem(name: name, description: description, icon: icon, colorString: String(describing: color))
-        parts.append(newPart)
+    func addPart(part: PartItem) {
+        parts.append(part)
     }
 
     func toggleFavorite(for part: PartItem) {
         if let index = parts.firstIndex(where: { $0.id == part.id }) {
             parts[index].isFavorite.toggle()
-            // Record the favorite date
             if parts[index].isFavorite {
                 parts[index].favoriteDate = Date()
             } else {
@@ -36,16 +33,29 @@ class PartViewModel: ObservableObject {
         }
     }
 
+    func deletePart(_ part: PartItem) {
+        if let index = parts.firstIndex(where: { $0.id == part.id }) {
+            parts.remove(at: index)
+        }
+    }
+
     private func saveParts() {
-        if let encoded = try? JSONEncoder().encode(parts) {
+        do {
+            let encoded = try JSONEncoder().encode(parts)
             UserDefaults.standard.set(encoded, forKey: "parts")
+        } catch {
+            print("Failed to save parts: \(error)")
         }
     }
 
     private func loadParts() {
-        if let data = UserDefaults.standard.data(forKey: "parts"),
-           let decoded = try? JSONDecoder().decode([PartItem].self, from: data) {
-            parts = decoded
+        if let data = UserDefaults.standard.data(forKey: "parts") {
+            do {
+                let decoded = try JSONDecoder().decode([PartItem].self, from: data)
+                parts = decoded
+            } catch {
+                print("Failed to load parts: \(error)")
+            }
         }
     }
 }
