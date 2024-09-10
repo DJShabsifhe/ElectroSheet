@@ -45,7 +45,7 @@ struct PartDetailView: View {
         }
         .padding()
         .navigationTitle("Part Details") // Mac OS Compatibility
-        .frame(maxWidth: .infinity, alignment: .leading) // Ensure it aligns left
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

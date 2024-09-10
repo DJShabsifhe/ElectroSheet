@@ -11,7 +11,7 @@ struct SettingsView: View {
     @State private var notificationsEnabled = true
     @State private var selectedSort = "Date"
     @State private var selectedLanguage = "English"
-    @State private var isLoggedIn = false // Track login status
+    @State private var isLoggedIn = false
 
     var body: some View {
         NavigationView {
@@ -43,7 +43,7 @@ struct SettingsView: View {
                         Text("Change Password")
                     }
                     
-                    NavigationLink(destination: Text("On Build")) {
+                    NavigationLink(destination: LoginView().environmentObject(UserManager())) {
                         Text(isLoggedIn ? "Log Out" : "Log In") // Change text based on login status
                             .foregroundColor(isLoggedIn ? .red : .blue)
                     }

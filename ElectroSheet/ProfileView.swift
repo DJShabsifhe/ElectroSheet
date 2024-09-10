@@ -8,45 +8,34 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var userName: String = "Admin"
-    @State private var userEmail: String = "Admin@test.com"
-    @State private var userStatus: String = "Club President"
-    @State private var userImage: String = "person.circle" // Placeholder for profile image
+    var user: User // Accept user as a parameter
 
     var body: some View {
         NavigationView {
             VStack {
-//                HStack {
-//                    Text("Profile")
-//                        .font(.largeTitle)
-//                        .foregroundColor(.black)
-//                        .fontWeight(.bold)
-//                        .padding()
-//                }.padding(.top)
                 VStack {
-                    
-                    Image(systemName: userImage)
+                    Image(systemName: user.photo)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 100, height: 100)
                         .foregroundColor(.accentColor)
                         .padding()
 
-                    Text(userName)
+                    Text(user.name)
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding(.bottom, 2)
                     
-                    Text(userStatus)
-                        .foregroundColor(.blue) // Customize color as needed
+                    Text(user.status)
+                        .foregroundColor(.blue)
                         .fontWeight(.bold)
 
-                    Text(userEmail)
+                    Text(user.email)
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
                 .padding()
-                .frame(width:300)
+                .frame(width: 300)
                 .background(Color.accentColor.opacity(0.1))
                 .cornerRadius(20)
                 .padding()
@@ -65,29 +54,12 @@ struct ProfileView: View {
                         Text("Notification Settings")
                     }
                 }
-                
-//                HStack {
-//                    // Log Out Button
-//                    Button(action: {
-//                        // Handle log out action
-//                    }) {
-//                        Text("Log Out")
-//                            .font(.headline)
-//                            .foregroundColor(.white)
-//                            .padding()
-//                            .frame(maxWidth: .infinity)
-//                            .background(Color.red.gradient.opacity(0.8))
-//                            .cornerRadius(8)
-//                    }
-//                    .frame(width:300)
-//                    .padding()
-//                }
-
-            }.navigationTitle("Profile")
+            }
+            .navigationTitle("Profile")
         }
     }
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(user: User(name: "Admin", email: "Admin@test.com", status: "Club President", password: "password", photo: "person.circle"))
 }

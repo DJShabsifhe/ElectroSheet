@@ -1,19 +1,11 @@
-//
-//  ContentView.swift
-//  ElectroSheet
-//
-//  Created by DJShabsifhe on 2024/9/7.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    
     @StateObject private var viewModel = PartViewModel()
+    @StateObject private var userManager = UserManager()
     @State private var selectedTab = 0
 
     var body: some View {
-        
         TabView(selection: $selectedTab) {
             Home(viewModel: viewModel)
                 .tabItem {
@@ -33,13 +25,22 @@ struct ContentView: View {
                 }
                 .tag(2)
 
-            ProfileView()
-                .tabItem {
-                    Label("Profile", systemImage: "person")
-                }
-                .tag(3)
+            if let loggedInUser = userManager.currentUser {
+                ProfileView(user: loggedInUser)
+                    .tabItem {
+                        Label("Profile", systemImage: "person")
+                    }
+                    .tag(3)
+            } else {
+                Text("Please log in")
+                    .tabItem {
+                        Label("Profile", systemImage: "person")
+                    }
+                    .tag(3)
+            }
         }
         .accentColor(.accentColor)
+        .environmentObject(userManager)
     }
 }
 
