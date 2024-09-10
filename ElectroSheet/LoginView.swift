@@ -15,36 +15,40 @@ struct LoginView: View {
     @State private var loggedInUser: User?
 
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text("Login")
-                    .font(.largeTitle)
-                TextField("Email", text: $email)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+        if #available(iOS 16.0, *) {
+            NavigationStack {
+                VStack {
+                    Text("Login")
+                        .font(.largeTitle)
+                    TextField("Email", text: $email)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    SecureField("Password", text: $password)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    Button("Login") {
+                        if let user = userManager.login(email: email, password: password) {
+                            loggedInUser = user
+                            message = "Login successful!"
+                        } else {
+                            message = "Invalid email or password."
+                        }
+                    }
                     .padding()
-                SecureField("Password", text: $password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                Button("Login") {
-                    if let user = userManager.login(email: email, password: password) {
-                        loggedInUser = user
-                        message = "Login successful!"
-                    } else {
-                        message = "Invalid email or password."
+                    Text(message)
+                        .foregroundColor(.red)
+                        .padding()
+                    
+                    if let user = loggedInUser {
+                        NavigationLink(destination: ProfileView(user: user)) {
+                            Text("Go to Profile")
+                        }
                     }
                 }
                 .padding()
-                Text(message)
-                    .foregroundColor(.red)
-                    .padding()
-
-                if let user = loggedInUser {
-                    NavigationLink(destination: ProfileView(user: user)) {
-                        Text("Go to Profile")
-                    }
-                }
             }
-            .padding()
+        } else {
+            // Fallback on earlier versions
         }
     }
 }
