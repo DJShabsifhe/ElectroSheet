@@ -14,41 +14,45 @@ struct PartDetailView: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text(part.name)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .font(.system(size: 34, weight: .bold, design: .default))
                     .foregroundColor(part.color)
-                Spacer() // This ensures that the name stays on the left
+                Spacer()
             }
             .padding(.bottom, 5)
-
-            Text("Description:")
-                .font(.headline)
-            Text(part.description)
-                .padding(.bottom, 10)
-
-            Text("Type:")
-                .font(.headline)
-            Text(part.type)
-                .padding(.bottom, 10)
-
-            Text("Usage:")
-                .font(.headline)
-            Text(part.usage)
-                .padding(.bottom, 10)
-
-            Text("Special:")
-                .font(.headline)
-            Text(part.special)
-                .padding(.bottom, 10)
-
+            
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Description:")
+                    .font(.headline)
+                Text(part.description)
+                Divider()
+                
+                Text("Type:")
+                    .font(.headline)
+                Text(part.type)
+                Divider()
+                
+                Text("Usage:")
+                    .font(.headline)
+                Text(part.usage)
+                Divider()
+                
+                Text("Special:")
+                    .font(.headline)
+                Text(part.special)
+            }
+            .padding()
+            .background(Color(.gray).opacity(0.1))
+            .cornerRadius(20)
+            .padding()
+            
             Spacer()
         }
         .padding()
-        .navigationTitle("Part Details") // Mac OS Compatibility
+        .navigationTitle("Part Details")
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
 //#Preview {
-//    PartDetailView()
+//    PartDetailView(part: PartItem())
 //}

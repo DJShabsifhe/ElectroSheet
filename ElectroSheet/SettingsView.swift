@@ -39,16 +39,16 @@ struct SettingsView: View {
                 }
                 
                 Section(header: Text("My Account")) {
-                    NavigationLink(destination: Text("Change Password")) {
-                        Text("Change Password")
-                    }
                     
-                    NavigationLink(destination: LoginView().environmentObject(UserManager())) {
-                        Text(isLoggedIn ? "Log Out" : "Log In") // Change text based on login status
+                    // to be added with supabase
+                    Button(action: {
+                        isLoggedIn.toggle()
+                    }) {
+                        Text(isLoggedIn ? "Log Out" : "Log In")
                             .foregroundColor(isLoggedIn ? .red : .blue)
                     }
                     
-                    NavigationLink(destination: Text("Delete All Data")) {
+                    NavigationLink(destination: DeleteAllDataView()) {
                         Text("Delete All Data")
                             .foregroundColor(.red)
                     }
@@ -56,6 +56,48 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
         }
+    }
+}
+
+struct DeleteAllDataView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @State private var isDeleted = false
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Delete All Data")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+
+            Text("Are you sure you want to delete all data?")
+                .font(.body)
+
+            Button(action: {
+                deleteAllData()
+            }) {
+                Text("Delete All Data")
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.red)
+                    .cornerRadius(10)
+            }
+            .alert(isPresented: $isDeleted) {
+                Alert(title: Text("Data Deleted"),
+                      message: Text("All data has been successfully deleted."),
+                      dismissButton: .default(Text("OK")) {
+                          presentationMode.wrappedValue.dismiss()
+                      })
+            }
+        }
+        .padding()
+    }
+
+    private func deleteAllData() {
+        // Clear all data from UserDefaults
+        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+        UserDefaults.standard.synchronize()
+        
+        isDeleted = true
     }
 }
 

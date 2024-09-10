@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Supabase
 
 struct LoginView: View {
     @State private var email: String = ""
@@ -48,7 +49,7 @@ struct LoginView: View {
                 .padding()
             }
         } else {
-            // Fallback on earlier versions
+            // to be added
         }
     }
 }
