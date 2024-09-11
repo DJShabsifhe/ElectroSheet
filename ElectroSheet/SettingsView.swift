@@ -8,16 +8,22 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var notificationsEnabled = true
-    @State private var selectedSort = "Date"
+    @State private var autoSync = true
+    @State var selectedSort = "Date"
     @State private var selectedLanguage = "English"
     @State private var isLoggedIn = false
+    @ObservedObject var viewModel: PartViewModel
 
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("General")) {
-                    Toggle("Enable Notifications", isOn: $notificationsEnabled)
+                    Toggle("Auto Sync with iCloud", isOn: $autoSync)
+                    
+                    NavigationLink(destination: ImportDataView(viewModel: viewModel)) {
+                        Text("Import Data from JSON")
+                            .foregroundColor(.blue)
+                    }
                 }
 
                 Section(header: Text("Language")) {
@@ -36,16 +42,13 @@ struct SettingsView: View {
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
+                    Text("-> "+selectedSort)
                 }
                 
                 Section(header: Text("My Account")) {
-                    
-                    // to be added with supabase
-                    Button(action: {
-                        isLoggedIn.toggle()
-                    }) {
-                        Text(isLoggedIn ? "Log Out" : "Log In")
-                            .foregroundColor(isLoggedIn ? .red : .blue)
+                    NavigationLink(destination: LoginView()) {
+                        Text("Login")
+                            .foregroundStyle(.blue)
                     }
                     
                     NavigationLink(destination: DeleteAllDataView()) {
@@ -102,5 +105,5 @@ struct DeleteAllDataView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(viewModel: PartViewModel())
 }

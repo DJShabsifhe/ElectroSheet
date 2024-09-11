@@ -3,6 +3,8 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var viewModel = PartViewModel()
     @StateObject private var userManager = UserManager()
+    @State var selectedSort = "Date"
+    @State var currentSort = "Date"
     @State private var selectedTab = 0
 
     var body: some View {
@@ -13,13 +15,13 @@ struct ContentView: View {
                 }
                 .tag(0)
 
-            FavoritesView(viewModel: viewModel)
+            FavoritesView(viewModel: viewModel, selectedSort: $selectedSort)
                 .tabItem {
                     Label("Favorites", systemImage: "star")
                 }
                 .tag(1)
 
-            SettingsView()
+            SettingsView(viewModel: viewModel)
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }

@@ -29,55 +29,18 @@ struct AddItem: View {
                 .font(.title2)
                 .padding()
 
-            TextField("Part Name", text: $newName)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .frame(width: 250)
-                .shadow(color: Color.gray, radius: 2, x: 2, y: 2)
-
-            TextField("Description", text: $newDescription)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .frame(width: 250)
-                .shadow(color: Color.gray, radius: 2, x: 2, y: 2)
-
-            TextField("Type", text: $newType)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .frame(width: 250)
-                .shadow(color: Color.gray, radius: 2, x: 2, y: 2)
-
-            TextField("Usage", text: $newUsage)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .frame(width: 250)
-                .shadow(color: Color.gray, radius: 2, x: 2, y: 2)
-
-            TextField("Special", text: $newSpecial)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .frame(width: 250)
-                .shadow(color: Color.gray, radius: 2, x: 2, y: 2)
+            customTextField("Part Name", text: $newName)
+            customTextField("Description", text: $newDescription)
+            customTextField("Type", text: $newType)
+            customTextField("Usage", text: $newUsage)
+            customTextField("Special", text: $newSpecial)
 
             HStack {
-                Picker("Select Icon", selection: $selectedIcon) {
-                    ForEach(icons, id: \.self) { icon in
-                        Label(icon.capitalized, systemImage: icon)
-                    }
-                }
-                .pickerStyle(MenuPickerStyle())
-                .padding()
-                
-                Picker("Select Color", selection: $selectedColor) {
-                    ForEach(colors, id: \.self) { color in
-                        Text(color.description.capitalized)
-                            .foregroundColor(color)
-                    }
-                }
-                .pickerStyle(MenuPickerStyle())
-                .padding()
+                customPicker("Select Icon", selection: $selectedIcon, items: icons)
+                customColorPicker("Select Color", selection: $selectedColor)
             }
-            
+            .padding()
+
             Button("Save") {
                 if !newName.isEmpty && !newDescription.isEmpty && !newType.isEmpty && !newUsage.isEmpty && !newSpecial.isEmpty {
                     let newPart = PartItem(
@@ -92,23 +55,66 @@ struct AddItem: View {
 
                     viewModel.addPart(part: newPart)
 
-                    newName = ""
-                    newDescription = ""
-                    newType = ""
-                    newUsage = ""
-                    newSpecial = ""
+                    clearFields()
                     showingAddItem = false
                 }
             }
+            .buttonStyle(CustomButtonStyle())
             .padding()
-            .foregroundColor(.blue)
-            .cornerRadius(8)
-            .font(.system(size: 20))
-            .disabled(newName.isEmpty || newDescription.isEmpty || newType.isEmpty || newUsage.isEmpty || newSpecial.isEmpty)
-            
+
             Spacer()
         }
         .padding()
+    }
+
+    private func customTextField(_ placeholder: String, text: Binding<String>) -> some View {
+        TextField(placeholder, text: text)
+            .textFieldStyle(PlainTextFieldStyle())
+            .padding()
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
+    }
+
+    private func customPicker(_ title: String, selection: Binding<String>, items: [String]) -> some View {
+        Picker(title, selection: selection) {
+            ForEach(items, id: \.self) { item in
+                Label(item.capitalized, systemImage: item)
+            }
+        }
+        .pickerStyle(MenuPickerStyle())
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
+    }
+
+    private func customColorPicker(_ title: String, selection: Binding<Color>) -> some View {
+        Menu {
+            ForEach(colors, id: \.self) { color in
+                Button(action: {
+                    selection.wrappedValue = color
+                }) {
+                    Text(color.description.capitalized)
+                        .foregroundColor(color)
+                }
+            }
+        } label: {
+            Text(title)
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
+        }
+        .padding()
+    }
+
+    private func clearFields() {
+        newName = ""
+        newDescription = ""
+        newType = ""
+        newUsage = ""
+        newSpecial = ""
     }
 
     private func colorToString(_ color: Color) -> String {
@@ -126,5 +132,17 @@ struct AddItem: View {
         default:
             return "unknown"
         }
+    }
+}
+
+// Custom button style for consistent appearance
+struct CustomButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(.white)
+            .padding()
+            .background(Color.blue)
+            .cornerRadius(10)
+            .shadow(color: configuration.isPressed ? Color.gray.opacity(0.5) : Color.clear, radius: 5, x: 0, y: 2)
     }
 }

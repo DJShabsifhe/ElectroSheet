@@ -8,10 +8,16 @@
 import SwiftUI
 
 struct ProfileView: View {
-    var user: User // Accept user as a parameter
+    var user: User
+    @State private var isLoggedIn = false
 
     var body: some View {
         NavigationView {
+            
+            if (!isLoggedIn) {
+                LoginView()
+            }
+            
             VStack {
                 VStack {
                     Image(systemName: user.photo)

@@ -1,0 +1,12 @@
+{
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "name": "Widget A",
+    "description": "A useful widget for various applications.",
+    "icon": "widget_a.png",
+    "colorString": "blue",
+    "isFavorite": true,
+    "favoriteDate": "2023-09-10T10:00:00Z",
+    "type": "Widget",
+    "usage": "Used in devices for automation.",
+    "special": "Requires special handling."
+}

@@ -91,13 +91,13 @@ struct Home: View {
 
                             // Delete Action
                             Button(role: .destructive, action: {
-                                viewModel.deletePart(part) // Call delete function
+                                viewModel.deletePart(part)
                             }) {
                                 Label("Delete", systemImage: "trash")
                             }
                         }
                     }
-                    .onDelete(perform: deleteParts) // Enable delete functionality
+                    .onDelete(perform: deleteParts)
                 }
             }
             .sheet(isPresented: $showingAddItem) {
@@ -109,7 +109,7 @@ struct Home: View {
     private func deleteParts(at offsets: IndexSet) {
         for index in offsets {
             let part = filteredParts[index]
-            viewModel.deletePart(part) // Call the delete function in the view model
+            viewModel.deletePart(part)
         }
     }
 }
