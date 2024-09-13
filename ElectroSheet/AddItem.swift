@@ -24,24 +24,31 @@ struct AddItem: View {
     let colors: [Color] = [.blue, .green, .red, .yellow, .purple]
 
     var body: some View {
-        VStack {
-            Text("Add New Item")
-                .font(.title2)
-                .padding()
+        VStack(alignment: .leading) {
+            // Title
+            Text("Add New Part")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundColor(.primary)
+                .padding(.bottom, 20)
 
+            // Input Fields
             customTextField("Part Name", text: $newName)
             customTextField("Description", text: $newDescription)
             customTextField("Type", text: $newType)
             customTextField("Usage", text: $newUsage)
             customTextField("Special", text: $newSpecial)
+                .padding(.bottom, 20)
 
+            // Icon and Color Selection
             HStack {
                 customPicker("Select Icon", selection: $selectedIcon, items: icons)
                 customColorPicker("Select Color", selection: $selectedColor)
             }
-            .padding()
+            .padding(.bottom, 20)
 
-            Button("Save") {
+            // Save Button
+            Button(action: {
                 if !newName.isEmpty && !newDescription.isEmpty && !newType.isEmpty && !newUsage.isEmpty && !newSpecial.isEmpty {
                     let newPart = PartItem(
                         name: newName,
@@ -52,61 +59,91 @@ struct AddItem: View {
                         usage: newUsage,
                         special: newSpecial
                     )
-
                     viewModel.addPart(part: newPart)
-
                     clearFields()
                     showingAddItem = false
                 }
+            }) {
+                Text("Save")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.accentColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                    .shadow(color: Color.accentColor.opacity(0.3), radius: 5, x: 0, y: 4)
             }
-            .buttonStyle(CustomButtonStyle())
-            .padding()
+            .padding(.bottom, 20)
 
             Spacer()
         }
-        .padding()
+        .padding(30)
+        .background(Color(.systemGroupedBackground))
+        .cornerRadius(20)
+        .shadow(radius: 10)
+        .edgesIgnoringSafeArea(.bottom) // Remove bottom safe area padding
     }
 
+    // Custom TextField with rounded style and padding
     private func customTextField(_ placeholder: String, text: Binding<String>) -> some View {
         TextField(placeholder, text: text)
-            .textFieldStyle(PlainTextFieldStyle())
             .padding()
-            .background(Color.white)
-            .cornerRadius(10)
-            .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
+            .background(RoundedRectangle(cornerRadius: 12).fill(Color(.systemGray6)))
+            .font(.body)
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
+            .padding(.bottom, 15)
     }
 
+    // Custom Picker for selecting icons
     private func customPicker(_ title: String, selection: Binding<String>, items: [String]) -> some View {
-        Picker(title, selection: selection) {
+        Menu {
             ForEach(items, id: \.self) { item in
-                Label(item.capitalized, systemImage: item)
+                Button(action: {
+                    selection.wrappedValue = item
+                }) {
+                    Label(item.capitalized, systemImage: item)
+                }
             }
+        } label: {
+            HStack {
+                Text(title)
+                Image(systemName: selection.wrappedValue)
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(RoundedRectangle(cornerRadius: 12).fill(Color(.systemGray6)))
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
         }
-        .pickerStyle(MenuPickerStyle())
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
     }
 
+    // Custom Color Picker for selecting colors
     private func customColorPicker(_ title: String, selection: Binding<Color>) -> some View {
         Menu {
             ForEach(colors, id: \.self) { color in
                 Button(action: {
                     selection.wrappedValue = color
                 }) {
-                    Text(color.description.capitalized)
-                        .foregroundColor(color)
+                    HStack {
+                        Circle()
+                            .fill(color)
+                            .frame(width: 24, height: 24)
+                        Text(color.description.capitalized)
+                            .foregroundColor(.primary)
+                    }
                 }
             }
         } label: {
-            Text(title)
-                .padding()
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
+            HStack {
+                Text(title)
+                Circle()
+                    .fill(selection.wrappedValue)
+                    .frame(width: 24, height: 24)
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(RoundedRectangle(cornerRadius: 12).fill(Color(.systemGray6)))
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
         }
-        .padding()
     }
 
     private func clearFields() {
@@ -132,17 +169,5 @@ struct AddItem: View {
         default:
             return "unknown"
         }
-    }
-}
-
-// Custom button style for consistent appearance
-struct CustomButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .foregroundColor(.white)
-            .padding()
-            .background(Color.blue)
-            .cornerRadius(10)
-            .shadow(color: configuration.isPressed ? Color.gray.opacity(0.5) : Color.clear, radius: 5, x: 0, y: 2)
     }
 }

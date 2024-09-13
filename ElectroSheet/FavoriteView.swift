@@ -9,36 +9,64 @@ import SwiftUI
 
 struct FavoritesView: View {
     @ObservedObject var viewModel: PartViewModel
-    @Binding var selectedSort: String // Use the binding directly
+    @Binding var selectedSort: String
     
-    var groupedFavorites: [Date: [PartItem]] {
-        Dictionary(grouping: sortedFavorites()) { part in
-            Calendar.current.startOfDay(for: part.favoriteDate!)
+    var sortOptions = ["Date", "Name", "Description"]
+    
+    var groupedFavorites: [String: [PartItem]] {
+        switch selectedSort {
+        case "Date":
+            return Dictionary(grouping: sortedFavorites()) { part in
+                let date = part.favoriteDate ?? Date()
+                return DateFormatter.localizedString(from: date, dateStyle: .medium, timeStyle: .none)
+            }
+        case "Name":
+            return Dictionary(grouping: sortedFavorites()) { part in
+                String(part.name.prefix(1)).uppercased() // Group by the first letter of the name
+            }
+        case "Description":
+            return Dictionary(grouping: sortedFavorites()) { part in
+                String(part.description.prefix(1)).uppercased() // Group by the first letter of the description
+            }
+        default:
+            return [:]
         }
     }
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(groupedFavorites.keys.sorted(), id: \.self) { date in
-                    Section(header: Text(date, style: .date)) {
-                        ForEach(groupedFavorites[date]!) { part in
-                            NavigationLink(destination: PartDetailView(part: part)) {
-                                HStack {
-                                    Image(systemName: part.icon)
-                                        .foregroundColor(part.color)
-                                    Text(part.name)
-                                        .foregroundColor(part.color)
-                                    Spacer()
-                                    Text(part.description)
-                                        .foregroundColor(.gray)
+            VStack {
+                // Sort Picker
+                Picker("Sort by", selection: $selectedSort) {
+                    ForEach(sortOptions, id: \.self) { option in
+                        Text(option)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+
+                // List of Favorites
+                List {
+                    ForEach(groupedFavorites.keys.sorted(), id: \.self) { key in
+                        Section(header: Text(key)) {
+                            ForEach(groupedFavorites[key]!) { part in
+                                NavigationLink(destination: PartDetailView(part: part)) {
+                                    HStack {
+                                        Image(systemName: part.icon)
+                                            .foregroundColor(part.color)
+                                        Text(part.name)
+                                            .foregroundColor(part.color)
+                                        Spacer()
+                                        Text(part.description)
+                                            .foregroundColor(.gray)
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                .navigationTitle("Favorites")
             }
-            .navigationTitle("Favorites")
         }
     }
     

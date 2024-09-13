@@ -15,8 +15,18 @@ struct SettingsView: View {
     @State private var selectedLanguage = "English"
     @State private var showingShareSheet = false
     @State private var fileURL: URL?
+    @State private var showingImportSuccessAlert = false
+    @State private var showingExportSuccessAlert = false
+    @State private var showingDocumentPicker = false
+    @ObservedObject var partViewModel = PartViewModel()
 
     func exportUserDefaultsToJSON() -> URL? {
+        // Skip export to prevent crash
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+            print("Skipping export during preview")
+            return nil
+        }
+        
         let userDefaults = UserDefaults.standard
         let dictionary = userDefaults.dictionaryRepresentation()
 
@@ -27,6 +37,7 @@ struct SettingsView: View {
             let fileURL = documentsDirectory.appendingPathComponent(fileName)
 
             try jsonData.write(to: fileURL)
+            showingExportSuccessAlert = true
             return fileURL
         } catch {
             print("Error exporting UserDefaults: \(error)")
@@ -34,50 +45,61 @@ struct SettingsView: View {
         }
     }
 
+    func importPartsFromJSON(url: URL) {
+        do {
+            let data = try Data(contentsOf: url)
+            let decodedParts = try JSONDecoder().decode([PartItem].self, from: data)
+            partViewModel.parts = decodedParts
+            showingImportSuccessAlert = true
+        } catch {
+            print("Error importing parts from JSON: \(error)")
+        }
+    }
+
     var body: some View {
         NavigationView {
-            Form {
-                Section(header: Text("General")) {
-                    Toggle("Auto Sync with iCloud", isOn: $autoSync)
-
+            List {
+                Section(header: Text("General").font(.headline).foregroundColor(.primary)) {
                     NavigationLink(destination: ImportDataView(viewModel: PartViewModel())) {
-                        Text("Import Data from JSON")
+                        Label("Import Data from JSON", systemImage: "square.and.arrow.down")
+                            .font(.body)
                             .foregroundColor(.blue)
                     }
                     
-                    Button("Export UserDefaults to JSON") {
+                    Button(action: {
                         if let url = exportUserDefaultsToJSON() {
                             fileURL = url
-                            showingShareSheet = true // Trigger the share sheet
+                            showingShareSheet = true
                         }
+                    }) {
+                        Label("Export UserDefaults to JSON", systemImage: "square.and.arrow.up")
+                            .font(.body)
+                            .foregroundColor(.blue)
                     }
-                }
-
-                Section(header: Text("Language")) {
-                    Picker("Select Language", selection: $selectedLanguage) {
-                        ForEach(["English", "Spanish", "French", "German"], id: \.self) { language in
-                            Text(language)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                }
-
-                Section(header: Text("Favorite")) {
-                    Picker("Sort By", selection: $selectedSort) {
-                        ForEach(["Date", "Name", "Description"], id: \.self) { sort in
-                            Text(sort)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
                 }
             }
             .navigationTitle("Settings")
+            .alert(isPresented: $showingImportSuccessAlert) {
+                Alert(title: Text("Success"), message: Text("Parts imported successfully."), dismissButton: .default(Text("OK")))
+            }
+            .alert(isPresented: $showingExportSuccessAlert) {
+                Alert(title: Text("Success"), message: Text("UserDefaults exported successfully."), dismissButton: .default(Text("OK")))
+            }
             .sheet(isPresented: $showingShareSheet) {
                 if let fileURL = fileURL {
                     ShareSheet(items: [fileURL])
                 }
             }
+            .fileImporter(isPresented: $showingDocumentPicker, allowedContentTypes: [.json]) { result in
+                switch result {
+                case .success(let url):
+                    importPartsFromJSON(url: url)
+                case .failure(let error):
+                    print("Failed to import file: \(error.localizedDescription)")
+                }
+            }
         }
+        .accentColor(.blue)
     }
 }
 
