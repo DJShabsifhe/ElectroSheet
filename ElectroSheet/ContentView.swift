@@ -1,8 +1,14 @@
+//
+//  ContentView.swift
+//  ElectroSheet
+//
+//  Created by DJShabsifhe on 2024/9/7.
+//
+
 import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = PartViewModel()
-    @StateObject private var userManager = UserManager()
     @State var selectedSort = "Date"
     @State var currentSort = "Date"
     @State private var selectedTab = 0
@@ -21,28 +27,12 @@ struct ContentView: View {
                 }
                 .tag(1)
 
-            SettingsView(viewModel: viewModel)
+            SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }
                 .tag(2)
-
-            if let loggedInUser = userManager.currentUser {
-                ProfileView(user: loggedInUser)
-                    .tabItem {
-                        Label("Profile", systemImage: "person")
-                    }
-                    .tag(3)
-            } else {
-                Text("Please log in")
-                    .tabItem {
-                        Label("Profile", systemImage: "person")
-                    }
-                    .tag(3)
-            }
         }
-        .accentColor(.accentColor)
-        .environmentObject(userManager)
     }
 }
 
