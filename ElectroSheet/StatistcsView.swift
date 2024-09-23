@@ -37,9 +37,8 @@ struct StatisticsView: View {
             Divider()
                 .padding()
 
-            // 图表展示不同类型的分布
             Chart {
-                ForEach(groupedParts, id: \.key) { key, value in
+                ForEach(Array(groupedParts), id: \.key) { key, value in
                     BarMark(
                         x: .value("类型", key),
                         y: .value("数量", value.count)
@@ -54,7 +53,6 @@ struct StatisticsView: View {
         }
     }
 
-    // 分组部件按类型
     var groupedParts: [String: [PartItem]] {
         Dictionary(grouping: viewModel.parts, by: { $0.type })
     }

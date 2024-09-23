@@ -60,6 +60,7 @@ struct Home: View {
                     
                     Button(action: {
                         isSearchFocused.toggle()
+                        searchText = ""
                     }) {
                         Image(systemName: isSearchFocused ? "xmark.circle.fill" : "magnifyingglass")
                             .foregroundColor(.gray)
@@ -119,17 +120,21 @@ struct Home: View {
                 Image(systemName: "plus")
             })
             .sheet(isPresented: $showingAddItem) {
-                AddItemView(viewModel: viewModel)
+                AddItemView(partName: <#Binding<[String]>#>, partImage: <#Binding<[String]>#>, partDescription: <#Binding<[String]>#>)
+                // fix this later
             }
         }
     }
 }
 
-// 筛选选项
-enum FilterOption: CaseIterable {
+enum FilterOption: Hashable, CaseIterable {
     case all
     case favorites
     case type(String)
+    
+    static var allCases: [FilterOption] {
+        return [.all, .favorites] // Add more specific types if needed
+    }
     
     var displayName: String {
         switch self {
@@ -143,7 +148,6 @@ enum FilterOption: CaseIterable {
     }
 }
 
-// 排序选项
 enum SortOption: CaseIterable {
     case nameAscending
     case nameDescending

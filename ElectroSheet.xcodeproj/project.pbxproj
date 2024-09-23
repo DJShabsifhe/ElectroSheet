@@ -19,6 +19,12 @@
 		1F66DD6F2C8D8FE700AADB37 /* PartDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66DD6E2C8D8FE700AADB37 /* PartDetailView.swift */; };
 		1F6BF7CC2C8C3666000BE0FB /* PartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6BF7CB2C8C3666000BE0FB /* PartItem.swift */; };
 		1F6BF7CE2C8C36CE000BE0FB /* PartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6BF7CD2C8C36CE000BE0FB /* PartViewModel.swift */; };
+		1F7C7AD52CA106F900C46D12 /* OpenAIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C7AD12CA106F900C46D12 /* OpenAIHandler.swift */; };
+		1F7C7AD62CA106F900C46D12 /* ImportPDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C7ACF2CA106F900C46D12 /* ImportPDFView.swift */; };
+		1F7C7AD72CA106F900C46D12 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C7AD22CA106F900C46D12 /* ShareSheet.swift */; };
+		1F7C7AD82CA106F900C46D12 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C7AD02CA106F900C46D12 /* NetworkMonitor.swift */; };
+		1F7C7AD92CA106F900C46D12 /* StatistcsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C7AD32CA106F900C46D12 /* StatistcsView.swift */; };
+		1F7C7ADB2CA106F900C46D12 /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C7ACE2CA106F900C46D12 /* AddItemView.swift */; };
 		1FA75B4B2C945B7100BD52AB /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA75B4A2C945B7100BD52AB /* Auth */; };
 		1FA75B4D2C945B7100BD52AB /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA75B4C2C945B7100BD52AB /* Functions */; };
 		1FA75B4F2C945B7100BD52AB /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA75B4E2C945B7100BD52AB /* PostgREST */; };
@@ -60,6 +66,12 @@
 		1F66DD6E2C8D8FE700AADB37 /* PartDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartDetailView.swift; sourceTree = "<group>"; };
 		1F6BF7CB2C8C3666000BE0FB /* PartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartItem.swift; sourceTree = "<group>"; };
 		1F6BF7CD2C8C36CE000BE0FB /* PartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartViewModel.swift; sourceTree = "<group>"; };
+		1F7C7ACE2CA106F900C46D12 /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
+		1F7C7ACF2CA106F900C46D12 /* ImportPDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPDFView.swift; sourceTree = "<group>"; };
+		1F7C7AD02CA106F900C46D12 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		1F7C7AD12CA106F900C46D12 /* OpenAIHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIHandler.swift; sourceTree = "<group>"; };
+		1F7C7AD22CA106F900C46D12 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		1F7C7AD32CA106F900C46D12 /* StatistcsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatistcsView.swift; sourceTree = "<group>"; };
 		1FB4F15A2C909232004A544C /* data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		1FB4F15C2C909426004A544C /* ImportDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportDataView.swift; sourceTree = "<group>"; };
 		1FCB993F2C8BEFFA00CA1843 /* ElectroSheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElectroSheet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +159,12 @@
 				1F6BF7CB2C8C3666000BE0FB /* PartItem.swift */,
 				1F6BF7CD2C8C36CE000BE0FB /* PartViewModel.swift */,
 				1F66DD6A2C8C716B00AADB37 /* FavoriteView.swift */,
+				1F7C7ACE2CA106F900C46D12 /* AddItemView.swift */,
+				1F7C7ACF2CA106F900C46D12 /* ImportPDFView.swift */,
+				1F7C7AD02CA106F900C46D12 /* NetworkMonitor.swift */,
+				1F7C7AD12CA106F900C46D12 /* OpenAIHandler.swift */,
+				1F7C7AD22CA106F900C46D12 /* ShareSheet.swift */,
+				1F7C7AD32CA106F900C46D12 /* StatistcsView.swift */,
 				1F66DD6C2C8C78C000AADB37 /* SettingsView.swift */,
 				1F66DD6E2C8D8FE700AADB37 /* PartDetailView.swift */,
 				1FB4F15C2C909426004A544C /* ImportDataView.swift */,
@@ -258,7 +276,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					1FCB993E2C8BEFFA00CA1843 = {
 						CreatedOnToolsVersion = 15.4;
@@ -334,6 +352,12 @@
 				1F66DD6F2C8D8FE700AADB37 /* PartDetailView.swift in Sources */,
 				1F66DD6D2C8C78C000AADB37 /* SettingsView.swift in Sources */,
 				1FCB99742C8C16CB00CA1843 /* Home.swift in Sources */,
+				1F7C7AD52CA106F900C46D12 /* OpenAIHandler.swift in Sources */,
+				1F7C7AD62CA106F900C46D12 /* ImportPDFView.swift in Sources */,
+				1F7C7AD72CA106F900C46D12 /* ShareSheet.swift in Sources */,
+				1F7C7AD82CA106F900C46D12 /* NetworkMonitor.swift in Sources */,
+				1F7C7AD92CA106F900C46D12 /* StatistcsView.swift in Sources */,
+				1F7C7ADB2CA106F900C46D12 /* AddItemView.swift in Sources */,
 				1FCB99722C8C16B500CA1843 /* AddItem.swift in Sources */,
 				1F66DD6B2C8C716B00AADB37 /* FavoriteView.swift in Sources */,
 				1FB4F15D2C909426004A544C /* ImportDataView.swift in Sources */,
@@ -516,7 +540,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
@@ -558,7 +582,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
@@ -577,7 +601,6 @@
 		1FCB99682C8BEFFD00CA1843 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -600,7 +623,6 @@
 		1FCB99692C8BEFFD00CA1843 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -623,7 +645,6 @@
 		1FCB996B2C8BEFFD00CA1843 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -645,7 +666,6 @@
 		1FCB996C2C8BEFFD00CA1843 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;

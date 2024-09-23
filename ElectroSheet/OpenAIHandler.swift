@@ -34,8 +34,6 @@ class OpenAIHandler: ObservableObject {
             case .failure(let error):
                 completion(.failure(error))
             }
-        } catch {
-            completion(.failure(error))
         }
     }
     
