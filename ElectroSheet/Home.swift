@@ -13,133 +13,159 @@ struct Home: View {
     @State private var isSearchFocused: Bool = false
     @State private var searchText: String = ""
     @State private var showingAddItem: Bool = false
+    @State private var selectedFilter: FilterOption = .all
+    @State private var selectedSort: SortOption = .nameAscending
 
     var filteredParts: [PartItem] {
-        if searchText.isEmpty {
-            return viewModel.parts
-        } else {
-            return viewModel.parts.filter { $0.name.contains(searchText) }
+        var parts = viewModel.parts
+        
+        // 搜索过滤
+        if !searchText.isEmpty {
+            parts = parts.filter { $0.name.contains(searchText) || $0.description.contains(searchText) }
         }
+        
+        // 基于筛选选项进行过滤
+        switch selectedFilter {
+        case .all:
+            break
+        case .favorites:
+            parts = parts.filter { $0.isFavorite }
+        case .type(let type):
+            parts = parts.filter { $0.type == type }
+        }
+        
+        // 排序
+        switch selectedSort {
+        case .nameAscending:
+            parts = parts.sorted { $0.name < $1.name }
+        case .nameDescending:
+            parts = parts.sorted { $0.name > $1.name }
+        case .dateAscending:
+            parts = parts.sorted { ($0.favoriteDate ?? Date()) < ($1.favoriteDate ?? Date()) }
+        case .dateDescending:
+            parts = parts.sorted { ($0.favoriteDate ?? Date()) > ($1.favoriteDate ?? Date()) }
+        }
+        
+        return parts
     }
 
     var body: some View {
         NavigationView {
             VStack {
-                Text("ElectroSheets")
-                    .font(.system(size: 40, weight: .heavy, design: .rounded))
-                    .foregroundStyle(LinearGradient(
-                        colors: [Color.blue.opacity(0.9), Color.purple.opacity(0.9)],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    ))
-                    .padding(.top, 20)
-                    .padding(.horizontal, 20)
-                    .multilineTextAlignment(.center)                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 4)
-                
+                // 搜索栏
                 HStack {
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray)
-                        TextField("Search Name", text: $searchText, onEditingChanged: { isEditing in
-                            isSearchFocused = isEditing
-                        })
-                        .foregroundColor(.primary)
-                        .disableAutocorrection(true)
-                        
-                        if !searchText.isEmpty {
-                            Button(action: {
-                                searchText = ""
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                    }
-                    .padding(10)
-                    .background(RoundedRectangle(cornerRadius: 10).fill(Color(.systemGray6)))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(isSearchFocused ? Color.accentColor : Color.clear, lineWidth: 1)
-                    )
-                    .animation(.easeInOut(duration: 0.3), value: isSearchFocused)
-                    .padding(.horizontal, 10)
+                    TextField("搜索部件...", text: $searchText)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
                     
                     Button(action: {
-                        showingAddItem.toggle()
+                        isSearchFocused.toggle()
                     }) {
-                        Label("Add", systemImage: "plus.circle.fill")
-                            .labelStyle(IconOnlyLabelStyle())
-                            .font(.system(size: 25))
-                            .foregroundColor(Color.accentColor)
+                        Image(systemName: isSearchFocused ? "xmark.circle.fill" : "magnifyingglass")
+                            .foregroundColor(.gray)
                     }
-                    .padding(.trailing, 10)
-                    .shadow(color: Color.black.opacity(0.3), radius: 3, x: 0, y: 3)
+                    .padding(.trailing)
+                }
+                .padding(.top)
+                
+                // 筛选和排序
+                HStack {
+                    Picker("筛选", selection: $selectedFilter) {
+                        ForEach(FilterOption.allCases, id: \.self) { option in
+                            Text(option.displayName).tag(option)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    
+                    Picker("排序", selection: $selectedSort) {
+                        ForEach(SortOption.allCases, id: \.self) { option in
+                            Text(option.displayName).tag(option)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
                 }
                 .padding(.horizontal)
                 
-                Spacer(minLength: 20)  // This will add 20 points of space below
-
-                List {
-                    ForEach(filteredParts) { part in
-                        NavigationLink(destination: PartDetailView(part: part)) {
-                            HStack {
-                                Image(systemName: part.isFavorite ? "star.fill" : "star")
-                                    .foregroundColor(part.isFavorite ? .yellow : .gray)
-                                    .onTapGesture {
-                                        withAnimation {
-                                            viewModel.toggleFavorite(for: part)
-                                        }
-                                    }
-                                
-                                VStack(alignment: .leading) {
-                                    Text(part.name)
-                                        .font(.headline)
-                                        .foregroundColor(part.color)
-                                    Text(part.description)
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                                
-                                Spacer()
+                List(filteredParts) { part in
+                    NavigationLink(destination: PartDetailView(part: part)) {
+                        HStack {
+                            Image(part.icon)
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                                .padding(.trailing, 10)
+                            VStack(alignment: .leading) {
+                                Text(part.name)
+                                    .font(.headline)
+                                Text(part.description)
+                                    .font(.subheadline)
+                                    .lineLimit(2)
+                                    .foregroundColor(.gray)
+                            }
+                            Spacer()
+                            if part.isFavorite {
+                                Image(systemName: "star.fill")
+                                    .foregroundColor(.yellow)
                             }
                         }
-                        .swipeActions {
-                            Button(action: {
-                                withAnimation {
-                                    viewModel.toggleFavorite(for: part)
-                                }
-                            }) {
-                                Label(part.isFavorite ? "Unfavorite" : "Favorite", systemImage: part.isFavorite ? "star.fill" : "star")
-                            }
-                            .tint(part.isFavorite ? .red : .yellow)
-
-                            Button(role: .destructive, action: {
-                                viewModel.deletePart(part)
-                            }) {
-                                Label("Delete", systemImage: "trash")
-                            }
-                        }
+                        .padding(.vertical, 5)
                     }
-                    .onDelete(perform: deleteParts)
                 }
-                .listStyle(InsetGroupedListStyle())
-                
             }
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("ElectroSheets")
+            .navigationBarItems(trailing: Button(action: {
+                showingAddItem = true
+            }) {
+                Image(systemName: "plus")
+            })
             .sheet(isPresented: $showingAddItem) {
-                AddItem(viewModel: viewModel, showingAddItem: $showingAddItem)
+                AddItemView(viewModel: viewModel)
             }
-        }
-    }
-
-    private func deleteParts(at offsets: IndexSet) {
-        for index in offsets {
-            let part = filteredParts[index]
-            viewModel.deletePart(part)
         }
     }
 }
 
-#Preview {
-    Home(viewModel: PartViewModel())
+// 筛选选项
+enum FilterOption: CaseIterable {
+    case all
+    case favorites
+    case type(String)
+    
+    var displayName: String {
+        switch self {
+        case .all:
+            return "全部"
+        case .favorites:
+            return "收藏"
+        case .type(let type):
+            return type
+        }
+    }
+}
+
+// 排序选项
+enum SortOption: CaseIterable {
+    case nameAscending
+    case nameDescending
+    case dateAscending
+    case dateDescending
+    
+    var displayName: String {
+        switch self {
+        case .nameAscending:
+            return "名称 A-Z"
+        case .nameDescending:
+            return "名称 Z-A"
+        case .dateAscending:
+            return "日期 旧到新"
+        case .dateDescending:
+            return "日期 新到旧"
+        }
+    }
+}
+
+struct Home_Previews: PreviewProvider {
+    static var previews: some View {
+        Home(viewModel: PartViewModel())
+    }
 }

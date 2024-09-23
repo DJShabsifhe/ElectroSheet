@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct PartItem: Identifiable, Codable {
-    var id = UUID()
+    var id: UUID = UUID()
     var name: String
     var description: String
     var icon: String

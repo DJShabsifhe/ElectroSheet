@@ -6,56 +6,79 @@
 //
 
 import Foundation
+import SwiftUI
+import Combine
 
 class PartViewModel: ObservableObject {
-    @Published var parts: [PartItem] = [] {
-        didSet {
-            saveParts()
-        }
-    }
+    @Published var parts: [PartItem] = []
+    private var cancellables = Set<AnyCancellable>()
+    private let cloudKey = "cloudParts"
+    private let networkMonitor = NetworkMonitor()
 
+    
     init() {
         loadParts()
+        setupSubscribers()
+        
+        networkMonitor.$isConnected
+            .sink { [weak self] connected in
+                if connected {
+                    self?.syncWithCloud()
+                }
+            }
+            .store(in: &cancellables)
     }
-
+    
     func addPart(part: PartItem) {
         parts.append(part)
+        saveParts()
     }
-
-    func toggleFavorite(for part: PartItem) {
-        if let index = parts.firstIndex(where: { $0.id == part.id }) {
-            parts[index].isFavorite.toggle()
-            if parts[index].isFavorite {
-                parts[index].favoriteDate = Date()
-            } else {
-                parts[index].favoriteDate = nil
-            }
-        }
+    
+    func removePart(at offsets: IndexSet) {
+        parts.remove(atOffsets: offsets)
+        saveParts()
     }
-
-    func deletePart(_ part: PartItem) {
-        if let index = parts.firstIndex(where: { $0.id == part.id }) {
-            parts.remove(at: index)
-        }
-    }
-
-    private func saveParts() {
-        do {
-            let encoded = try JSONEncoder().encode(parts)
-            UserDefaults.standard.set(encoded, forKey: "parts")
-        } catch {
-            print("Failed to save parts: \(error)")
-        }
-    }
-
+    
     private func loadParts() {
         if let data = UserDefaults.standard.data(forKey: "parts") {
             do {
                 let decoded = try JSONDecoder().decode([PartItem].self, from: data)
                 parts = decoded
             } catch {
-                print("Failed to load parts: \(error)")
+                print("加载部件失败: \(error)")
             }
+        }
+    }
+    
+    private func saveParts() {
+        do {
+            let data = try JSONEncoder().encode(parts)
+            UserDefaults.standard.set(data, forKey: "parts")
+        } catch {
+            print("保存部件失败: \(error)")
+        }
+    }
+
+        private func setupSubscribers() {
+        $parts
+            .debounce(for: .seconds(1), scheduler: RunLoop.main)
+            .sink { [weak self] newParts in
+                self?.saveParts()
+                if self?.networkMonitor.isConnected == true {
+                    self?.syncWithCloud()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func syncWithCloud() {
+        // icloud
+        do {
+            let data = try JSONEncoder().encode(parts)
+            UserDefaults(suiteName: "iCloud.com.yourapp.ElectroSheet")?.set(data, forKey: cloudKey)
+            print("同步到云端成功")
+        } catch {
+            print("同步到云端失败: \(error)")
         }
     }
 }
