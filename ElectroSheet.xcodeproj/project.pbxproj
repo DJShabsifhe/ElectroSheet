@@ -16,6 +16,9 @@
 		1F210F9E2C8F2F590030D0A1 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 1F210F9D2C8F2F590030D0A1 /* Auth */; };
 		1F210FA02C8F2F590030D0A1 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 1F210F9F2C8F2F590030D0A1 /* Functions */; };
 		1F210FA42C8F2F590030D0A1 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 1F210FA32C8F2F590030D0A1 /* Realtime */; };
+		1F285E2F2CA8EF26001F7943 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F285E2E2CA8EF26001F7943 /* ChatView.swift */; };
+		1F285E312CA9125D001F7943 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F285E302CA9125D001F7943 /* OpenAIService.swift */; };
+		1F285E332CA95525001F7943 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F285E322CA95525001F7943 /* Secrets.swift */; };
 		1F2863512C8FDD6600AF0102 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 1F2863502C8FDD6600AF0102 /* Auth */; };
 		1F2863532C8FDD6600AF0102 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 1F2863522C8FDD6600AF0102 /* Functions */; };
 		1F2863552C8FDD6600AF0102 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 1F2863542C8FDD6600AF0102 /* PostgREST */; };
@@ -56,6 +59,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F285E2E2CA8EF26001F7943 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		1F285E302CA9125D001F7943 /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
+		1F285E322CA95525001F7943 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		1F66DD6A2C8C716B00AADB37 /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
 		1F66DD6C2C8C78C000AADB37 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1F66DD6E2C8D8FE700AADB37 /* PartDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartDetailView.swift; sourceTree = "<group>"; };
@@ -140,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				1FCB99422C8BEFFA00CA1843 /* ElectroSheetApp.swift */,
+				1F285E2E2CA8EF26001F7943 /* ChatView.swift */,
 				1FCB99442C8BEFFA00CA1843 /* ContentView.swift */,
 				1FCB99462C8BEFFC00CA1843 /* Assets.xcassets */,
 				1FCB99482C8BEFFC00CA1843 /* ElectroSheet.entitlements */,
@@ -153,6 +160,8 @@
 				1F66DD6E2C8D8FE700AADB37 /* PartDetailView.swift */,
 				1FB4F15C2C909426004A544C /* ImportDataView.swift */,
 				1FB4F15A2C909232004A544C /* data.json */,
+				1F285E302CA9125D001F7943 /* OpenAIService.swift */,
+				1F285E322CA95525001F7943 /* Secrets.swift */,
 			);
 			path = ElectroSheet;
 			sourceTree = "<group>";
@@ -341,6 +350,9 @@
 				1F66DD6B2C8C716B00AADB37 /* FavoriteView.swift in Sources */,
 				1FB4F15D2C909426004A544C /* ImportDataView.swift in Sources */,
 				1F6BF7CC2C8C3666000BE0FB /* PartItem.swift in Sources */,
+				1F285E2F2CA8EF26001F7943 /* ChatView.swift in Sources */,
+				1F285E332CA95525001F7943 /* Secrets.swift in Sources */,
+				1F285E312CA9125D001F7943 /* OpenAIService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
