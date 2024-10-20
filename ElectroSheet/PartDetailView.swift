@@ -53,6 +53,17 @@ struct PartDetailView: View {
     }
 }
 
-//#Preview {
-//    PartDetailView(part: PartItem())
-//}
+#Preview {
+    
+    let previewPart = PartItem(
+        name: "Resistor",
+        description: "A resistor is a passive two-terminal electrical component.",
+        icon: "resistor",
+        colorString: "blue",
+        type: "Passive",
+        usage: "Limits current",
+        special: "None"
+    )
+    
+    PartDetailView(part: previewPart)
+}

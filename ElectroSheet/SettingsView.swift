@@ -21,7 +21,7 @@ struct SettingsView: View {
     @ObservedObject var partViewModel = PartViewModel()
 
     func exportUserDefaultsToJSON() -> URL? {
-        // Skip export to prevent crash
+        // Skip export if in Preview, to prevent crash
         if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
             print("Skipping export during preview")
             return nil
@@ -73,6 +73,14 @@ struct SettingsView: View {
                         }
                     }) {
                         Label("Export UserDefaults to JSON", systemImage: "square.and.arrow.up")
+                            .font(.body)
+                            .foregroundColor(.blue)
+                    }
+                }
+                
+                Section(header: Text("About").font(.headline).foregroundColor(.primary)) {
+                    NavigationLink(destination: AboutView()) {
+                        Label("About author", systemImage: "info.circle")
                             .font(.body)
                             .foregroundColor(.blue)
                     }

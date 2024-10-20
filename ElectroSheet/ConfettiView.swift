@@ -1,39 +1,63 @@
+//
+//  ConfettiView.swift
+//  ElectroSheet
+//
+//  Created by DJShabsifhe on 2024/10/1.
+//
+
 import SwiftUI
 
 struct ConfettiView: View {
     @Binding var isActive: Bool
-    
+    @State private var confettiPieces: [ConfettiPiece] = []
+
     var body: some View {
         ZStack {
             if isActive {
-                ForEach(0..<100, id: \.self) { _ in
+                ForEach(confettiPieces) { piece in
                     Circle()
-                        .fill(Color.random) // Random color
-                        .frame(width: 5, height: 5)
-                        .offset(x: CGFloat.random(in: -150...150), y: CGFloat.random(in: -300...0))
+                        .fill(piece.color)
+                        .frame(width: piece.size, height: piece.size)
+                        .offset(piece.offset)
                         .animation(
-                            Animation.interpolatingSpring(stiffness: 50, damping: 5)
-                                .delay(Double.random(in: 0...1))
-                                .repeatCount(1, autoreverses: false),
+                            Animation.spring(response: 5, dampingFraction: 5, blendDuration: 5)
+                                .delay(piece.delay),
                             value: isActive
                         )
                 }
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                isActive = false
+            generateConfetti()
+        }
+        .onChange(of: isActive) { newValue in
+            if !newValue {
+                confettiPieces.removeAll()
             }
+        }
+    }
+
+    private func generateConfetti() {
+        confettiPieces = (0..<100).map { index in
+            let size = CGFloat.random(in: 5...10)
+            let delay = Double(index) * 0.2
+            let color = Color.random
+            let offset = CGSize(width: .random(in: -100...100), height: .random(in: -200...0))
+            return ConfettiPiece(size: size, color: color, offset: offset, delay: delay)
         }
     }
 }
 
+struct ConfettiPiece: Identifiable {
+    let id = UUID()
+    let size: CGFloat
+    let color: Color
+    let offset: CGSize
+    let delay: Double
+}
+
 extension Color {
     static var random: Color {
-        return Color(
-            red: Double.random(in: 0...1),
-            green: Double.random(in: 0...1),
-            blue: Double.random(in: 0...1)
-        )
+        Color(red: Double.random(in: 0...1), green: Double.random(in: 0...1), blue: Double.random(in: 0...1))
     }
 }

@@ -5,14 +5,6 @@
 //  Created by DJShabsifhe on 2024/10/11.
 //
 
-
-//
-//  ChatStore.swift
-//  DemoChat
-//
-//  Created by Sihao Lu on 3/25/23.
-//
-
 import Foundation
 import Combine
 import OpenAI

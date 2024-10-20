@@ -29,14 +29,15 @@ struct ContentView: View {
             
             ChatView()
                 .tabItem {
-                    Label("Chat", systemImage: "brain.head.profile")
+                    Label("ChatGPT", systemImage: "brain")
                 }
-
+                .tag(2) // Added tag for ChatView
+            
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }
-                .tag(2)
+                .tag(3) // Changed to tag 3 for consistency
         }
         .task {
             do {
@@ -45,6 +46,7 @@ struct ContentView: View {
                 print(error.localizedDescription)
             }
         }
+        .navigationTitle("ElectroSheet") // Optional: Set a navigation title
     }
 }
 

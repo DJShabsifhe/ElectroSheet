@@ -1,11 +1,12 @@
 //
-//  Home.swift
-//  ElectroSheet
+//  Home.swift
+//  ElectroSheet
 //
-//  Created by DJShabsifhe on 2024/9/7.
+//  Created by DJShabsifhe on 2024/9/7.
 //
 
 import SwiftUI
+import CoreMotion
 
 struct Home: View {
     @ObservedObject var viewModel: PartViewModel
@@ -13,7 +14,12 @@ struct Home: View {
     @State private var isSearchFocused: Bool = false
     @State private var searchText: String = ""
     @State private var showingAddItem: Bool = false
-
+    @State private var roll = Double.zero
+    @State private var pitch = Double.zero
+    
+    let motionManager = CMMotionManager()
+    let queue = OperationQueue()
+    
     var filteredParts: [PartItem] {
         if searchText.isEmpty {
             return viewModel.parts
@@ -34,7 +40,9 @@ struct Home: View {
                     ))
                     .padding(.top, 20)
                     .padding(.horizontal, 20)
-                    .multilineTextAlignment(.center)                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 4)
+                    .multilineTextAlignment(.center)
+                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: CGFloat(-roll * 5), y: CGFloat(-pitch * 5))
+                    .offset(x: CGFloat(-roll * 5), y: CGFloat(-pitch * 5))
                 
                 HStack {
                     HStack {
@@ -77,8 +85,8 @@ struct Home: View {
                 }
                 .padding(.horizontal)
                 
-                Spacer(minLength: 20)  // This will add 20 points of space below
-
+                Spacer(minLength: 20)
+                
                 List {
                     ForEach(filteredParts) { part in
                         NavigationLink(destination: PartDetailView(part: part)) {
@@ -123,9 +131,25 @@ struct Home: View {
                     .onDelete(perform: deleteParts)
                 }
                 .listStyle(InsetGroupedListStyle())
-                
             }
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                self.motionManager.deviceMotionUpdateInterval = 1/60
+                self.motionManager.startDeviceMotionUpdates(to: self.queue) { (data: CMDeviceMotion?, error: Error?) in
+                    guard let data = data else {
+                        print("Error: \(error!)")
+                        return
+                    }
+                    let attitude = data.attitude
+                    
+                    DispatchQueue.main.async {
+                        withAnimation(.spring(response: 0.33, dampingFraction: 0.33)) {
+                            self.roll = attitude.roll // Horizontal rotation
+                            self.pitch = attitude.pitch // Vertical rotation
+                        }
+                    }
+                }
+            }
             .sheet(isPresented: $showingAddItem) {
                 AddItem(viewModel: viewModel, showingAddItem: $showingAddItem)
             }

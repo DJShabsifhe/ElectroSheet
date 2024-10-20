@@ -42,32 +42,36 @@ struct DetailView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            ScrollViewReader { scrollViewProxy in
-                VStack {
-                    List {
-                        ForEach(conversation.messages) { message in
-                            ChatBubble(message: message)
+        if #available(iOS 16.0, *) {
+            NavigationStack {
+                ScrollViewReader { scrollViewProxy in
+                    VStack {
+                        List {
+                            ForEach(conversation.messages) { message in
+                                ChatBubble(message: message)
+                            }
+                            .listRowSeparator(.hidden)
                         }
-                        .listRowSeparator(.hidden)
+                        .listStyle(.plain)
+                        .animation(.default, value: conversation.messages)
+                        //                    .onChange(of: conversation) { newValue in
+                        //                        if let lastMessage = newValue.messages.last {
+                        //                            scrollViewProxy.scrollTo(lastMessage.id, anchor: .bottom)
+                        //                        }
+                        //                    }
+                        
+                        if let error = error {
+                            errorMessage(error: error)
+                        }
+                        
+                        inputBar(scrollViewProxy: scrollViewProxy)
                     }
-                    .listStyle(.plain)
-                    .animation(.default, value: conversation.messages)
-//                    .onChange(of: conversation) { newValue in
-//                        if let lastMessage = newValue.messages.last {
-//                            scrollViewProxy.scrollTo(lastMessage.id, anchor: .bottom)
-//                        }
-//                    }
-
-                    if let error = error {
-                        errorMessage(error: error)
-                    }
-
-                    inputBar(scrollViewProxy: scrollViewProxy)
+                    //                .navigationTitle("Chat", selectedModel: $selectedChatModel)
+                    //                .modelSelect(selectedModel: $selectedChatModel, models: Self.availableChatModels, showsModelSelectionSheet: $showsModelSelectionSheet, help: "https://platform.openai.com/docs/models/overview")
                 }
-                .navigationTitle("Chat", selectedModel: $selectedChatModel)
-                .modelSelect(selectedModel: $selectedChatModel, models: Self.availableChatModels, showsModelSelectionSheet: $showsModelSelectionSheet, help: "https://platform.openai.com/docs/models/overview")
             }
+        } else {
+            // Fallback on earlier versions
         }
     }
 
